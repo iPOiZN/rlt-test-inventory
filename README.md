@@ -1,39 +1,40 @@
-# rlt-test-inventory
+# Проект на Vue 3 с json-server
 
-This template should help get you started developing with Vue 3 in Vite.
+Этот проект использует Vue 3 и `json-server` для создания макета backend'а. Включает скрипты для запуска сервера разработки и мок-API.
 
-## Recommended IDE Setup
+## Установка
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+1. Убедитесь, что у вас установлен Node.js. Если нет, скачайте и установите [Node.js](https://nodejs.org/).
+2. Клонируйте репозиторий на ваш локальный компьютер.
+3. Перейдите в директорию проекта в терминале.
+4. Выполните `npm install`, чтобы установить все зависимости.
 
-## Type Support for `.vue` Imports in TS
+## Использование
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+Для запуска проекта с `json-server` используйте следующие npm скрипты:
 
-## Customize configuration
+- `npm run dev` - Запускает сервер разработки Vite для приложения на Vue.
+- `npm run db` - Запускает как сервер разработки Vite, так и `json-server`, используя `db.json` в качестве файла с мок-данными. Флаг `--watch` заставляет `json-server` следить за изменениями в `db.json` и автоматически обновлять мок-API.
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Структура проекта
 
-## Project Setup
+- `src/` - Содержит исходные файлы приложения на Vue.
+- `db.json` - Файл с мок-данными, используемый `json-server` для API ответов.
+- `public/` - Содержит статические ресурсы, такие как изображения и шрифты.
+- `vite.config.js` - Файл конфигурации для Vite.
+- `package.json` - Содержит метаданные проекта и npm скрипты.
 
-```sh
-npm install
-```
+## Скрипты
 
-### Compile and Hot-Reload for Development
+В `package.json` определены следующие скрипты:
 
-```sh
-npm run dev
-```
+- **`dev`**: `vite` - Запускает сервер разработки Vite для приложения на Vue.
+- **`db`**: `vite & npx json-server db.json --watch` - Запускает как Vite, так и `json-server`, позволяя одновременно разрабатывать приложение на Vue и мок-API.
 
-### Type-Check, Compile and Minify for Production
+## Дополнительная конфигурация
 
-```sh
-npm run build
-```
+Вы можете настроить параметры `json-server` или изменить `db.json` в зависимости от потребностей вашего приложения. Убедитесь, что вы перезапустили скрипт `db`, чтобы применить изменения.
 
-### Lint with [ESLint](https://eslint.org/)
+## Лицензия
 
-```sh
-npm run lint
-```
+Этот проект лицензирован под лицензией MIT. Подробности смотрите в файле [LICENSE](LICENSE).
