@@ -8,7 +8,7 @@ import { useItemsStore } from '@/stores/items'
 import type { IItems } from '@/types/items.interface'
 import { ref } from 'vue'
 
-const items = ref<IItems[] | null[]>(Array(25).fill(null)) // Initialize with 25 cells, filled with null
+const items = ref<IItems[] | null[]>(Array(25).fill(null))
 const itemsStore = useItemsStore()
 
 function handleCellClick(index: number) {
@@ -44,7 +44,6 @@ function onDrop(event: DragEvent, dropIndex: number) {
       items.value.splice(draggedIdx, 1, null)
       items.value.splice(dropIndex, 1, draggedItem)
       itemsStore.changePosition(draggedItem.id, dropIndex)
-      
     }
   }
 }

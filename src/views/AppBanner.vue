@@ -6,9 +6,9 @@ defineProps<{ banner: boolean }>()
 </script>
 <template>
   <Transition name="banner">
-    <div class="banner" @click.stop="$emit('closeBanner')" v-if="banner">
+    <div class="banner" v-if="banner">
       <GhostItem height="100%" width="100%" border-radius="12px" />
-      <button class="banner__close">
+      <button class="banner__close" @click.stop="$emit('closeBanner')">
         <IconClose />
       </button>
     </div>
