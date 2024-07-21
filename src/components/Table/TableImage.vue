@@ -18,7 +18,6 @@ withDefaults(defineProps<IProps>(), {
 
 <style scoped lang="scss">
 .table__image {
- 
   display: flex;
   // align-items: flex-end;
   align-items: center;
@@ -31,6 +30,7 @@ withDefaults(defineProps<IProps>(), {
     position: relative;
     margin-top: 8%;
     margin-left: -8%;
+    transition: 0.3s background-color;
     &:after {
       content: '';
       position: absolute;
@@ -40,6 +40,8 @@ withDefaults(defineProps<IProps>(), {
       height: inherit;
       background-color: #7faa6535;
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: 0.3s background-color;
     }
   }
 }

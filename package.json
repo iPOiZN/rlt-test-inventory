@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "db": "vite & npx json-server db.json --watch",
+    "dev-db": "start /b vite && npx json-server db.json --watch",
+    "db-only": "npx json-server db.json --watch",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
@@ -14,9 +15,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@tanstack/vue-query": "^5.51.9",
+    "@types/gsap": "^1.20.2",
     "@vueuse/core": "^10.11.0",
     "axios": "^1.7.2",
+    "gsap": "^3.12.5",
     "json-server": "^1.0.0-beta.1",
     "pinia": "^2.1.7",
     "vue": "^3.4.29"

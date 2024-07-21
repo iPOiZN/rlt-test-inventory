@@ -2,15 +2,17 @@
 import GhostItem from '@/components/Ghost/GhostItem.vue'
 import IconClose from '@/components/Icons/IconClose.vue'
 
-const props = defineProps<{ banner: boolean }>()
+defineProps<{ banner: boolean }>()
 </script>
 <template>
-  <div class="banner" @click.stop="$emit('closeBanner')" v-if="banner">
-    <GhostItem height="100%" width="100%" border-radius="12px" />
-    <button class="banner__close">
-      <IconClose />
-    </button>
-  </div>
+  <Transition name="banner">
+    <div class="banner" @click.stop="$emit('closeBanner')" v-if="banner">
+      <GhostItem height="100%" width="100%" border-radius="12px" />
+      <button class="banner__close">
+        <IconClose />
+      </button>
+    </div>
+  </Transition>
 </template>
 
 <style scoped lang="scss">
@@ -32,5 +34,15 @@ const props = defineProps<{ banner: boolean }>()
       right: 10px;
     }
   }
+}
+
+.banner-enter-active,
+.banner-leave-active {
+  transition: all 0.3s ease;
+}
+.banner-enter-from,
+.banner-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
 }
 </style>

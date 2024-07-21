@@ -22,21 +22,26 @@ import { useAsideStore } from '@/stores/aside'
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border-left: 1px solid var(--border);
-  z-index: 1;
+  z-index: 10;
+  will-change: transform;
 }
 
 .aside-enter-active,
 .aside-leave-active {
-  transition: all 0.3s ease;
+  transition: transform 0.5s ease, right 0.5s ease;
 }
 
 .aside-enter-from,
 .aside-leave-to {
-  transform: translateX(100%);
+  // transform: translateX(100%);
+  // transform: translate3d(100%, 0, 0);
+  right: -100%;
 }
 
 .aside-enter-to,
 .aside-leave-from {
-  transform: translateX(0);
+  // transform: translateX(0);
+  // transform: translate3d(0, 0, 0);
+  right: 0;
 }
 </style>

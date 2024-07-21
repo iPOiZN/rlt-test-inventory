@@ -19,7 +19,7 @@ export const ItemService = {
     }
   },
   async getById(id: string) {
-    const response = await axios.get<IItems[]>(`http://localhost:3000/items?id=${id}`)
+    const response = await axios.get<IItems[]>(`http://localhost:3000/items/${id}`)
     console.log(response.data[0])
     return response.data[0]
   }

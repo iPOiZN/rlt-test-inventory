@@ -7,7 +7,7 @@ import { useAsideStore } from '@/stores/aside'
 import { useItemsStore } from '@/stores/items'
 import type { IItems } from '@/types/items.interface'
 // import { createFetch } from '@vueuse/core'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const items = ref<IItems[]>([])
 // const selectedItem = ref<IItems | null>(null)
@@ -15,7 +15,7 @@ const items = ref<IItems[]>([])
 const itemsStore = useItemsStore()
 
 function handleCellClick(index: number) {
-  useAsideStore().toggle()
+  useAsideStore().isOpen = true
   // selectedItem.value = items.value[index - 1]
   itemsStore.selectedItem = items.value[index - 1]
 }
@@ -27,15 +27,16 @@ itemsStore.getItems().then((data) => {
 <template>
   <div class="table">
     <div class="table__cell" v-for="index in 25" :key="index">
-      <div
+      <div class="table__cell-item" v-if="items[index - 1]" @click="handleCellClick(index)">
+        <!-- <div
         class="table__cell-item"
         :class="{ active: itemsStore.selectedItem?.id === items[index - 1]?.id }"
         v-if="items[index - 1]"
         @click="handleCellClick(index)"
-      >
+      > -->
         <TableImage :color="items[index - 1].color" width="50px" height="50px" />
+        <TableBadge :count="items[index - 1]?.count" v-if="items[index - 1]" />
       </div>
-      <TableBadge :count="items[index - 1]?.count" v-if="items[index - 1]" />
     </div>
     <TableAside>
       <TableCard :item="itemsStore.selectedItem" v-if="itemsStore.selectedItem" />
@@ -53,12 +54,16 @@ itemsStore.getItems().then((data) => {
   grid-template-columns: repeat(5, 1fr);
   background-color: var(--card-bg);
   position: relative;
+  overflow-x: clip;
+  overflow-y: overlay;
+  // z-index: 0;
   // flex-wrap: wrap;
 
   &__cell {
+    min-width: 105px;
     height: 100px;
     border: 1px solid var(--border);
-    position: relative;
+    z-index: 0;
     &-item {
       position: relative;
       display: flex;
@@ -67,6 +72,8 @@ itemsStore.getItems().then((data) => {
       width: 100%;
       height: 100%;
       cursor: pointer;
+      transition: 0.3s transform;
+      z-index: 2;
       &:hover,
       &.active {
         background-color: var(--bg-active);
