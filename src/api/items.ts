@@ -18,6 +18,12 @@ export const ItemService = {
       return response.data[0]
     }
   },
+  async changePosition(id: string, position: number) {
+    const response = await axios.patch(`http://localhost:3000/items/${id}`, {
+      position: position
+    })
+    return response.data[0]
+  },
   async getById(id: string) {
     const response = await axios.get<IItems[]>(`http://localhost:3000/items/${id}`)
     console.log(response.data[0])

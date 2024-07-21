@@ -6,36 +6,64 @@ import TableImage from '@/components/Table/TableImage.vue'
 import { useAsideStore } from '@/stores/aside'
 import { useItemsStore } from '@/stores/items'
 import type { IItems } from '@/types/items.interface'
-// import { createFetch } from '@vueuse/core'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 
-const items = ref<IItems[]>([])
-// const selectedItem = ref<IItems | null>(null)
-
+const items = ref<IItems[] | null[]>(Array(25).fill(null)) // Initialize with 25 cells, filled with null
 const itemsStore = useItemsStore()
 
 function handleCellClick(index: number) {
   useAsideStore().isOpen = true
-  // selectedItem.value = items.value[index - 1]
-  itemsStore.selectedItem = items.value[index - 1]
+  itemsStore.selectedItem = items.value[index]
 }
 
 itemsStore.getItems().then((data) => {
-  items.value = data.value
+  data.value.forEach((item) => {
+    if (item.position >= 0 && item.position < items.value.length) {
+      items.value[item.position] = item
+    }
+  })
 })
+
+function onDragStart(event: DragEvent, index: number) {
+  event.dataTransfer?.setData('text/plain', index.toString())
+  event.dataTransfer!.effectAllowed = 'move'
+}
+
+function onDragOver(event: DragEvent) {
+  event.preventDefault()
+}
+
+function onDrop(event: DragEvent, dropIndex: number) {
+  event.preventDefault()
+  const draggedIndex = event.dataTransfer?.getData('text/plain')
+  if (draggedIndex !== null) {
+    const draggedIdx = Number(draggedIndex)
+    const draggedItem = items.value[draggedIdx]
+
+    if (items.value[dropIndex] === null && draggedIdx !== dropIndex && draggedItem) {
+      items.value.splice(draggedIdx, 1, null)
+      items.value.splice(dropIndex, 1, draggedItem)
+      itemsStore.changePosition(draggedItem.id, dropIndex)
+      
+    }
+  }
+}
 </script>
+
 <template>
   <div class="table">
-    <div class="table__cell" v-for="index in 25" :key="index">
-      <div class="table__cell-item" v-if="items[index - 1]" @click="handleCellClick(index)">
-        <!-- <div
-        class="table__cell-item"
-        :class="{ active: itemsStore.selectedItem?.id === items[index - 1]?.id }"
-        v-if="items[index - 1]"
-        @click="handleCellClick(index)"
-      > -->
-        <TableImage :color="items[index - 1].color" width="50px" height="50px" />
-        <TableBadge :count="items[index - 1]?.count" v-if="items[index - 1]" />
+    <div
+      class="table__cell"
+      v-for="(item, index) in items"
+      :key="index"
+      draggable="true"
+      @dragstart="onDragStart($event, index)"
+      @dragover="onDragOver"
+      @drop="onDrop($event, index)"
+    >
+      <div class="table__cell-item" @click="handleCellClick(index)">
+        <TableImage v-if="item" :color="item.color" width="50px" height="50px" />
+        <TableBadge v-if="item" :count="item.count" />
       </div>
     </div>
     <TableAside>
@@ -56,14 +84,12 @@ itemsStore.getItems().then((data) => {
   position: relative;
   overflow-x: clip;
   overflow-y: overlay;
-  // z-index: 0;
-  // flex-wrap: wrap;
 
   &__cell {
     min-width: 105px;
     height: 100px;
     border: 1px solid var(--border);
-    z-index: 0;
+
     &-item {
       position: relative;
       display: flex;
@@ -73,7 +99,10 @@ itemsStore.getItems().then((data) => {
       height: 100%;
       cursor: pointer;
       transition: 0.3s transform;
-      z-index: 2;
+      pointer-events: none;
+      &:has(.table__image) {
+        pointer-events: all;
+      }
       &:hover,
       &.active {
         background-color: var(--bg-active);

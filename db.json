@@ -3,17 +3,20 @@
     {
       "id": "1",
       "color": "#7FAA65",
-      "count": 4
+      "count": 4,
+      "position": 0
     },
     {
       "id": "2",
       "color": "#AA9765",
-      "count": 2
+      "count": 2,
+      "position": 1
     },
     {
       "id": "3",
       "color": "#656CAA",
-      "count": 5
+      "count": 5,
+      "position": 2
     }
   ]
 }

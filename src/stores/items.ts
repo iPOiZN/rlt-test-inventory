@@ -1,8 +1,7 @@
-import { ItemService } from '@/api/items';
-import type { IItems } from '@/types/items.interface';
-import { defineStore } from 'pinia';
-import { ref } from 'vue';
-
+import { ItemService } from '@/api/items'
+import type { IItems } from '@/types/items.interface'
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
 export const useItemsStore = defineStore('items', () => {
   const items = ref<IItems[]>([])
@@ -17,12 +16,18 @@ export const useItemsStore = defineStore('items', () => {
       alert('Вы пытаетесь удалить больше предметов, чем имеется в наличии')
     } else {
       const newCount = selectedItem.value!.count - count
-      await ItemService.decreaseCount(id, newCount)
-      getItems()
       selectedItem.value!.count = newCount
-    //   getItems()
+      await ItemService.decreaseCount(id, newCount)
+      await getItems()
+      //   getItems()
     }
   }
+  async function changePosition(id: string, position: number) {
+    const response = await ItemService.changePosition(id, position)
 
-  return { items, getItems, deleteItem, selectedItem }
+    getItems()
+    return response
+  }
+
+  return { items, getItems, deleteItem, selectedItem, changePosition }
 })
