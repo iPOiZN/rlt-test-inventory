@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "dev-db": "start /b vite && npx json-server db.json --watch",
+    "dev": "node server/start-servers.js",
+    "dev-only": "vite",
     "db-only": "npx json-server db.json --watch",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
