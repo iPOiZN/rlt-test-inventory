@@ -4,11 +4,17 @@
       "id": "1",
       "color": "#7FAA65",
       "count": 4,
-      "position": 5
+      "position": 0
     },
     {
       "id": "3",
       "color": "#656CAA",
+      "count": 2,
+      "position": 1
+    },
+    {
+      "id": "2",
+      "color": "#7FAA65",
       "count": 5,
       "position": 2
     }
